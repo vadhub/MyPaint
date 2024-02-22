@@ -28,7 +28,7 @@ import com.abg.mypaint.color.ColorPicker;
  */
 public class DrawableOnTouchView extends FrameLayout implements View.OnClickListener{
 
-    private ImageButton undo, painterIcon, done, cancel;
+    private ImageButton undo, painterIcon;
     private ShaderTextView normalBrush, neonBrush, innerBrush, blurBrush, embossBrush, debossBrush;
     private ColorPicker colorPicker;
     private FingerPaintView fingerPaintView;
@@ -41,22 +41,12 @@ public class DrawableOnTouchView extends FrameLayout implements View.OnClickList
     private ImageView onDoneIv;
     private boolean controlsHidden = false;
     private FrameLayout canvasFrame;
-    private OnActionListener actionListener;
     private OnColorChangedListener colorChangedListener;
-
-    public interface OnActionListener {
-        void onCancel();
-        void onDone(Bitmap bitmap);
-    }
 
     public interface OnColorChangedListener {
         void onColorChanged(int color);
         void onStrokeWidthChanged(float strokeWidth);
         void onBrushChanged(int brushType);
-    }
-
-    public void setActionListener(OnActionListener actionListener) {
-        this.actionListener = actionListener;
     }
 
     public void setColorChangedListener(final OnColorChangedListener colorChangedListener) {
@@ -185,23 +175,12 @@ public class DrawableOnTouchView extends FrameLayout implements View.OnClickList
 
         strokeWidthStatus = layout.findViewById(R.id.stroke_width_status);
 
-        cancel = layout.findViewById(R.id.draw_canceled);
-        cancel.setOnClickListener(this);
-        done = layout.findViewById(R.id.draw_done);
-        done.setOnClickListener(this);
-
         mainFrame = layout.findViewById(R.id.draw_main_frame);
-        drawActionLayout = layout.findViewById(R.id.draw_action_layout);
 
         onDoneIv = layout.findViewById(R.id.onDone_iv);
 
         undoFrame = layout.findViewById(R.id.undo_frame);
-        hideChecks();
-    }
 
-    public void hideChecks() {
-        cancel.setVisibility(GONE);
-        done.setVisibility(GONE);
     }
 
     private void setClickable() {
@@ -274,32 +253,6 @@ public class DrawableOnTouchView extends FrameLayout implements View.OnClickList
         });
     }
 
-    public void hideOnDone() {
-        controlsHidden = true;
-        onDoneIv.setImageBitmap(fingerPaintView.getmBitmap());
-        onDoneIv.setVisibility(VISIBLE);
-        colorPicker.setVisibility(GONE);
-        selectBrushFrame.setVisibility(GONE);
-        undo.setVisibility(GONE);
-        strokeWidthFrame.setVisibility(GONE);
-        mainFrame.setBackgroundColor(Color.TRANSPARENT);
-        drawActionLayout.setVisibility(GONE);
-        fingerPaintView.setVisibility(GONE);
-        painterIcon.setVisibility(GONE);
-    }
-
-    public void makeNonClickable(boolean show) {
-        painterIcon.setClickable(true);
-        undoFrame.setClickable(true);
-        onDoneIv.setClickable(false);
-        colorPicker.setClickable(show);
-        selectBrushFrame.setClickable(false);
-        undo.setClickable(true);
-        strokeWidthFrame.setClickable(false);
-        drawActionLayout.setClickable(false);
-        fingerPaintView.setClickable(show);
-    }
-
     private void showBrushOptions() {
         boolean show = selectBrushFrame.getVisibility() != VISIBLE;
         if (show) {
@@ -332,13 +285,6 @@ public class DrawableOnTouchView extends FrameLayout implements View.OnClickList
         } else if (view.equals(debossBrush)) {
             fingerPaintView.setBrushType(BrushType.BRUSH_DEBOSS);
             showBrushOptions();
-        } else if (view.equals(cancel)) {
-            if (actionListener != null) actionListener.onCancel();
-        } else if (view.equals(done)) {
-            onDoneIv.setImageBitmap(fingerPaintView.getmBitmap());
-            fingerPaintView.setVisibility(GONE);
-            if (actionListener != null) actionListener.onDone(fingerPaintView.getmBitmap());
-            hideOnDone();
         }
 
     }

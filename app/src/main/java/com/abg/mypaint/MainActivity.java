@@ -14,7 +14,6 @@ import com.abg.mypaint.brush.BrushType;
 import com.abg.mypaint.painview.DrawableOnTouchView;
 
 public class MainActivity extends AppCompatActivity {
-    private DrawableOnTouchView drawableOnTouchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,36 +21,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         FrameLayout mainFrame = findViewById(R.id.main_frame);
         try {
-            drawableOnTouchView = new DrawableOnTouchView(this);
-            drawableOnTouchView.setActionListener(new DrawableOnTouchView.OnActionListener() {
-                @Override
-                public void onCancel() {
-                    drawableOnTouchView.setClickable(false);
-
-                }
-
-                @Override
-                public void onDone(Bitmap bitmap) {
-                    drawableOnTouchView.makeNonClickable(false);
-                }
-
-            });
+            DrawableOnTouchView drawableOnTouchView = new DrawableOnTouchView(this);
 
             drawableOnTouchView.setColorChangedListener(new DrawableOnTouchView.OnColorChangedListener() {
                 @Override
-                public void onColorChanged(int color) {
-
-                }
+                public void onColorChanged(int color) {}
 
                 @Override
-                public void onStrokeWidthChanged(float strokeWidth) {
-
-                }
+                public void onStrokeWidthChanged(float strokeWidth) {}
 
                 @Override
-                public void onBrushChanged(int brushType) {
-
-                }
+                public void onBrushChanged(int brushType) {}
 
             });
             FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);

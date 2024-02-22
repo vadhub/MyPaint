@@ -8,31 +8,6 @@
     android:background="@android:color/white"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/draw_action_layout"
-        android:layout_width="match_parent"
-        android:layout_height="25dip"
-        android:background="@color/colorPrimary"
-        android:orientation="horizontal"
-        android:visibility="gone">
-
-        <ImageButton
-            android:id="@+id/draw_canceled"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/cancel_background"
-            app:srcCompat="@drawable/ic_clear_white_24dp" />
-
-        <ImageButton
-            android:id="@+id/draw_done"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/record_background"
-            app:srcCompat="@drawable/ic_check_white" />
-    </LinearLayout>
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -58,7 +33,6 @@
             android:layout_gravity="end"
             android:layout_marginTop="64dip"
             android:layout_marginEnd="20dip"
-            android:layout_marginRight="20dip"
             android:layout_marginBottom="30dip" />
 
         <HorizontalScrollView
@@ -220,6 +194,15 @@
             android:layout_height="64dip"
             android:layout_gravity="end"
             android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/save"
+                android:layout_width="36dip"
+                android:layout_height="48dip"
+                android:layout_gravity="start"
+                android:layout_marginEnd="60dip"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/save_fill0_wght400_grad0_opsz24" />
 
             <LinearLayout
                 android:id="@+id/stroke_width_layout"
