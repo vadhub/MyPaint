@@ -23,8 +23,7 @@ import com.abg.mypaint.brush.BrushType;
 import com.abg.mypaint.color.ColorPicker;
 
 /**
- *
- *  Created by INFIi on 1/21/2017.
+ * Created by INFIi on 1/21/2017.
  * interfaces onActionListener, onColorChangedListener
  */
 public class DrawableOnTouchView extends FrameLayout implements View.OnClickListener{
@@ -146,21 +145,27 @@ public class DrawableOnTouchView extends FrameLayout implements View.OnClickList
         painterIcon.setVisibility(GONE);
 
         normalBrush = layout.findViewById(R.id.normal_brush);
+        normalBrush.setOnClickListener(this);
         enableShader(normalBrush, BrushType.BRUSH_SOLID);
 
         neonBrush = layout.findViewById(R.id.neon_brush);
+        neonBrush.setOnClickListener(this);
         enableShader(neonBrush, BrushType.BRUSH_NEON);
 
         innerBrush = layout.findViewById(R.id.inner_brush);
+        innerBrush.setOnClickListener(this);
         enableShader(innerBrush, BrushType.BRUSH_INNER);
 
         blurBrush = layout.findViewById(R.id.blur_brush);
+        blurBrush.setOnClickListener(this);
         enableShader(blurBrush, BrushType.BRUSH_BLUR);
 
         embossBrush = layout.findViewById(R.id.emboss_brush);
+        embossBrush.setOnClickListener(this);
         enableShader(embossBrush, BrushType.BRUSH_EMBOSS);
 
         debossBrush = layout.findViewById(R.id.deboss_brush);
+        debossBrush.setOnClickListener(this);
         enableShader(debossBrush, BrushType.BRUSH_DEBOSS);
 
         colorPicker = layout.findViewById(R.id.color_picker);
@@ -181,7 +186,9 @@ public class DrawableOnTouchView extends FrameLayout implements View.OnClickList
         strokeWidthStatus = layout.findViewById(R.id.stroke_width_status);
 
         cancel = layout.findViewById(R.id.draw_canceled);
+        cancel.setOnClickListener(this);
         done = layout.findViewById(R.id.draw_done);
+        done.setOnClickListener(this);
 
         mainFrame = layout.findViewById(R.id.draw_main_frame);
         drawActionLayout = layout.findViewById(R.id.draw_action_layout);
@@ -202,11 +209,6 @@ public class DrawableOnTouchView extends FrameLayout implements View.OnClickList
             @Override
             public void undoListEmpty() {
                 undo.setAlpha(0.4f);
-            }
-
-            @Override
-            public void redoListEmpty() {
-
             }
 
             @Override
@@ -273,7 +275,6 @@ public class DrawableOnTouchView extends FrameLayout implements View.OnClickList
     }
 
     public void hideOnDone() {
-        //OnDoneAnimation();
         controlsHidden = true;
         onDoneIv.setImageBitmap(fingerPaintView.getmBitmap());
         onDoneIv.setVisibility(VISIBLE);

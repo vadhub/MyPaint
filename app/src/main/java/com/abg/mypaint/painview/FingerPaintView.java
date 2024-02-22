@@ -21,10 +21,23 @@ import java.util.ArrayList;
 
 public class FingerPaintView extends AppCompatImageView {
 
+    private Bitmap mBitmap;
+    private Canvas mCanvas;
+    private Path mPath;
+    private Paint mBitmapPaint;
+    private Paint mPaint;
+    private final ArrayList<PaintData> pathList = new ArrayList<>();
+    private int width;
+    private int height;
+    private float radius = 28;
+    private Paint undoPaint;
+    private boolean redraw;
+    private int lastColor;
+    private float lastStrokeWidth;
+    private MaskFilter lastMaskFilter;
+
     public interface OnUndoEmptyListener {
         void undoListEmpty();
-
-        void redoListEmpty();
 
         void refillUndo();
 
@@ -42,7 +55,7 @@ public class FingerPaintView extends AppCompatImageView {
 
         void onStrokeWidthChanged(float strokeWidth);
 
-        void onBrushChanged(int Brushid);
+        void onBrushChanged(int brushId);
     }
 
     private OnColorPickerChanged colorPickerChanged = null;
@@ -56,23 +69,6 @@ public class FingerPaintView extends AppCompatImageView {
     public void setUndoEmptyListener(OnUndoEmptyListener undoEmptyListener) {
         this.undoEmptyListener = undoEmptyListener;
     }
-
-
-    private Bitmap mBitmap;
-    private Canvas mCanvas;
-    private Path mPath;
-    private Paint mBitmapPaint;
-    private Paint mPaint;
-    private final ArrayList<PaintData> pathList = new ArrayList<>();
-    private final ArrayList<PaintData> undoList = new ArrayList<>();
-    private int width;
-    private int height;
-    private float radius = 28;
-    private Paint undoPaint;
-    private boolean redraw;
-    private int lastColor;
-    private float lastStrokeWidth;
-    private MaskFilter lastMaskFilter;
 
     public FingerPaintView(Context c) {
         super(c);
@@ -96,7 +92,6 @@ public class FingerPaintView extends AppCompatImageView {
         lastStrokeWidth = c.getSharedPreferences("paint", Context.MODE_PRIVATE).getFloat("stroke", 12.0f);
         lastMaskFilter = idToMaskFilter(c.getSharedPreferences("paint", Context.MODE_PRIVATE).getInt("id", BrushType.BRUSH_SOLID), radius = 28);
 
-
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
         mPaint.setColor(lastColor);
@@ -104,10 +99,9 @@ public class FingerPaintView extends AppCompatImageView {
         mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeWidth(lastStrokeWidth);
-
         mPaint.setMaskFilter(lastMaskFilter);
-        undoPaint = mPaint;
 
+        undoPaint = mPaint;
         redraw = false;
         DisplayMetrics displayMetrics = c.getResources().getDisplayMetrics();
         width = displayMetrics.widthPixels;
@@ -182,7 +176,6 @@ public class FingerPaintView extends AppCompatImageView {
     protected void onDraw(Canvas canvas) {
         try {
             canvas.drawColor(Color.TRANSPARENT);
-
             canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
 
             if (!redraw) canvas.drawPath(mPath, mPaint);
@@ -226,7 +219,6 @@ public class FingerPaintView extends AppCompatImageView {
         PaintData pd = new PaintData(lastColor, lastStrokeWidth, lastMaskFilter, mPath);
         pathList.add(pd);
         mPath.reset();
-
     }
 
     public void onUndo() {
@@ -234,11 +226,10 @@ public class FingerPaintView extends AppCompatImageView {
             if (undoEmptyListener != null) undoEmptyListener.OnUndoStarted();
             redraw = true;
             if (pathList.size() > 0) {
-                undoList.add(pathList.remove(pathList.size() - 1));
+                pathList.remove(pathList.size() - 1);
                 onSizeChanged(width, height, width, height);
                 if (pathList.isEmpty() && undoEmptyListener != null)
                     undoEmptyListener.undoListEmpty();
-                //redraw();
                 invalidate();
             } else {
                 if (undoEmptyListener != null) undoEmptyListener.undoListEmpty();

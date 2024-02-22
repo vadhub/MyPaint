@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FrameLayout mainFrame = (FrameLayout) findViewById(R.id.main_frame);
+        FrameLayout mainFrame = findViewById(R.id.main_frame);
         try {
             drawableOnTouchView = new DrawableOnTouchView(this);
             drawableOnTouchView.setActionListener(new DrawableOnTouchView.OnActionListener() {

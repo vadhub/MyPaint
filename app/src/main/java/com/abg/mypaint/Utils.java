@@ -13,8 +13,7 @@ import android.view.WindowManager;
 public class Utils {
     public static float density = 1;
     public static DisplayMetrics displayMetrics = new DisplayMetrics();
-    private static boolean usingHardwareInput;
-    private static Point displaySize = new Point();
+    private static final Point displaySize = new Point();
 
     public static int dp(Context context,float value) {
         if (value == 0) {
@@ -23,7 +22,7 @@ public class Utils {
         if(density!=1) {
             return (int) Math.ceil(density * value);
         }
-        return (int)convertDpToPixel(context,value);
+        return convertDpToPixel(context,value);
     }
 
     public static void checkDisplaySize(Context context, Configuration newConfiguration) {
@@ -33,7 +32,7 @@ public class Utils {
             if (configuration == null) {
                 configuration = context.getResources().getConfiguration();
             }
-            usingHardwareInput = configuration.keyboard != Configuration.KEYBOARD_NOKEYS && configuration.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO;
+
             WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
             if (manager != null) {
                 Display display = manager.getDefaultDisplay();
