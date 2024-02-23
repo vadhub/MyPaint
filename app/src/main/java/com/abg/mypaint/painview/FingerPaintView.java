@@ -3,7 +3,6 @@ package com.abg.mypaint.painview;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.MaskFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -35,6 +34,8 @@ public class FingerPaintView extends AppCompatImageView {
     private int lastColor;
     private float lastStrokeWidth;
     private MaskFilter lastMaskFilter;
+    private float mX, mY;
+    private static final float TOUCH_TOLERANCE = 4;
 
     public interface OnUndoEmptyListener {
         void undoListEmpty();
@@ -93,6 +94,7 @@ public class FingerPaintView extends AppCompatImageView {
         width = displayMetrics.widthPixels;
         height = displayMetrics.heightPixels;
         mBitmap = Bitmap.createBitmap(displayMetrics.widthPixels, displayMetrics.heightPixels, Bitmap.Config.ARGB_8888);
+        mBitmap.eraseColor(0xFFFFFFFF);
         mCanvas = new Canvas(mBitmap);
         mPath = new Path();
         pathList.add(new PaintData(lastColor, lastStrokeWidth, lastMaskFilter, mPath));
@@ -145,29 +147,14 @@ public class FingerPaintView extends AppCompatImageView {
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        width = w;
-        height = h;
-        redraw = true;
-        mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        mCanvas = new Canvas(mBitmap);
-        invalidate();
-    }
-
-    @Override
     protected void onDraw(Canvas canvas) {
         try {
-            canvas.drawColor(Color.TRANSPARENT);
             canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
             if (!redraw) canvas.drawPath(mPath, mPaint); else redraw();
         } catch (Exception e) {
-            Log.e("onDraw", e.getMessage());
+            Log.e("onDraw", e.toString());
         }
     }
-
-    private float mX, mY;
-    private static final float TOUCH_TOLERANCE = 4;
 
     private void touch_start(float x, float y) {
         if (undoEmptyListener != null) undoEmptyListener.onTouchDown();
@@ -177,7 +164,7 @@ public class FingerPaintView extends AppCompatImageView {
         mY = y;
     }
 
-    private void touch_move(float x, float y) {
+    private void touchMove(float x, float y) {
         float dx = Math.abs(x - mX);
         float dy = Math.abs(y - mY);
         if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
@@ -187,7 +174,7 @@ public class FingerPaintView extends AppCompatImageView {
         }
     }
 
-    private void touch_up() {
+    private void touchUp() {
         if (undoEmptyListener != null && pathList.size() == 0) undoEmptyListener.refillUndo();
         if (undoEmptyListener != null) undoEmptyListener.onTouchUp();
         mPath.lineTo(mX, mY);
@@ -254,11 +241,11 @@ public class FingerPaintView extends AppCompatImageView {
                 invalidate();
                 break;
             case MotionEvent.ACTION_MOVE:
-                touch_move(x, y);
+                touchMove(x, y);
                 invalidate();
                 break;
             case MotionEvent.ACTION_UP:
-                touch_up();
+                touchUp();
                 invalidate();
                 break;
         }
