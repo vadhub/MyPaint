@@ -42,16 +42,12 @@ public class FingerPaintView extends AppCompatImageView {
 
         void refillUndo();
 
-        void OnUndoStarted();
-
-        void OnUndoCompleted();
-
         void onTouchDown();
 
         void onTouchUp();
     }
 
-    private OnUndoEmptyListener undoEmptyListener = null;
+    private OnUndoEmptyListener undoEmptyListener;
 
     public void setUndoEmptyListener(OnUndoEmptyListener undoEmptyListener) {
         this.undoEmptyListener = undoEmptyListener;
@@ -189,7 +185,6 @@ public class FingerPaintView extends AppCompatImageView {
 
     public void onUndo() {
         try {
-            if (undoEmptyListener != null) undoEmptyListener.OnUndoStarted();
             redraw = true;
             if (pathList.size() > 0) {
                 pathList.remove(pathList.size() - 1);
@@ -203,8 +198,6 @@ public class FingerPaintView extends AppCompatImageView {
         } catch (Exception e) {
             Log.e("onUndo", e.getMessage());
         }
-        if (undoEmptyListener != null) undoEmptyListener.OnUndoCompleted();
-
     }
 
     private void redraw() {

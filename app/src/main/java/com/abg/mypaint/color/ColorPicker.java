@@ -25,8 +25,6 @@ import com.abg.mypaint.color.ColorAttribute;
 
 public class ColorPicker extends FrameLayout {
     public interface ColorPickerListener {
-        void onBeganColorPicking();
-        void onColorValueChanged(int color);
         void onFinishedColorPicking(int color);
         void onSettingsPressed();
     }
@@ -223,9 +221,6 @@ public class ColorPicker extends FrameLayout {
         } else if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_MOVE) {
             if (!interacting) {
                 interacting = true;
-                if (colorPickerListener != null) {
-                    colorPickerListener.onBeganColorPicking();
-                }
             }
 
             float colorLocation = Math.max(0.0f, Math.min(1.0f, y / rectF.height()));
@@ -238,10 +233,6 @@ public class ColorPicker extends FrameLayout {
                 float weightLocation = (-x - dp(10)) / dp(190);
                 weightLocation = Math.max(0.0f, Math.min(1.0f, weightLocation));
                 setWeight(weightLocation);
-            }
-
-            if (colorPickerListener != null) {
-                colorPickerListener.onColorValueChanged(colorForLocation(location));
             }
             return true;
         }

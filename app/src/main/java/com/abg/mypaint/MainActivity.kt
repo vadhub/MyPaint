@@ -5,12 +5,10 @@ import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
-import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.abg.mypaint.painview.DrawableOnTouchView
+import com.abg.mypaint.painview.DrawableFragment
 import com.fondesa.kpermissions.PermissionStatus
 import com.fondesa.kpermissions.allGranted
 import com.fondesa.kpermissions.anyPermanentlyDenied
@@ -19,7 +17,7 @@ import com.fondesa.kpermissions.extension.isPermissionGranted
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.fondesa.kpermissions.request.PermissionRequest
 
-class MainActivity : AppCompatActivity(), DrawableOnTouchView.FileHandler, PermissionRequest.Listener {
+class MainActivity : AppCompatActivity(), DrawableFragment.FileHandler, PermissionRequest.Listener {
 
     private val request by lazy {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -41,24 +39,7 @@ class MainActivity : AppCompatActivity(), DrawableOnTouchView.FileHandler, Permi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         request.addListener(this)
-        val mainFrame: FrameLayout = findViewById(R.id.main_frame)
-        try {
-            val drawableOnTouchView = DrawableOnTouchView(this)
-            drawableOnTouchView.setFileHandler(this)
-            val params = FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-            )
-            params.gravity = Gravity.CENTER
-            mainFrame.addView(drawableOnTouchView, params)
-            drawableOnTouchView.attachCanvas(
-                FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.MATCH_PARENT
-            )
-        } catch (e: Exception) {
-            Log.e("MainActivity", e.message!!)
-            Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
-        }
+        supportFragmentManager.beginTransaction().add(R.id.fragment_container, DrawableFragment()).commit()
     }
 
     override fun onSave(bitmap: Bitmap) {
@@ -75,7 +56,9 @@ class MainActivity : AppCompatActivity(), DrawableOnTouchView.FileHandler, Permi
         when {
             result.anyPermanentlyDenied() -> showPermanentlyDeniedDialog(result)
             result.anyShouldShowRationale() -> showRationaleDialog(result, request)
-            result.allGranted() -> showGrantedToast(result)
+            result.allGranted() -> {
+                showGrantedToast(result)
+            }
         }
     }
 }

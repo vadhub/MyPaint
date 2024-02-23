@@ -5,250 +5,241 @@
     android:id="@+id/draw_main_frame"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:orientation="vertical">
+    android:background="@android:color/white">
 
-    <FrameLayout
+    <com.abg.mypaint.painview.FingerPaintView
+        android:id="@+id/finger_paint"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"/>
 
-        <FrameLayout
-            android:id="@+id/canvas_frame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/onDone_iv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:clickable="false" />
 
-        </FrameLayout>
+    <com.abg.mypaint.color.ColorPicker
+        android:id="@+id/color_picker"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:layout_marginTop="64dip"
+        android:layout_marginEnd="20dip"
+        android:layout_marginBottom="30dip" />
 
-        <ImageView
-            android:id="@+id/onDone_iv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:clickable="false" />
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="80dip"
+        android:layout_gravity="end|bottom"
+        android:layout_marginTop="64dip"
+        android:layout_marginEnd="55dip"
+        android:layout_marginBottom="30dip"
+        android:paddingBottom="5dip"
+        android:scrollbars="none">
 
-        <com.abg.mypaint.color.ColorPicker
-            android:id="@+id/color_picker"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:layout_marginTop="64dip"
-            android:layout_marginEnd="20dip"
-            android:layout_marginBottom="30dip" />
-
-        <HorizontalScrollView
+        <LinearLayout
+            android:id="@+id/brush_option_frame"
             android:layout_width="wrap_content"
-            android:layout_height="80dip"
-            android:layout_gravity="end|bottom"
-            android:layout_marginTop="64dip"
-            android:layout_marginEnd="55dip"
-            android:layout_marginRight="55dip"
-            android:layout_marginBottom="30dip"
-            android:paddingBottom="5dip"
-            android:scrollbars="none">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/brush_option_frame"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="20dip"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="40dip"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="@string/neon"
-                        android:textColor="@color/colorAccent"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="40dip"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="@string/fade"
-                        android:textColor="@color/colorAccent"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="35dip"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="@string/glow"
-                        android:textColor="@color/colorAccent"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="35dip"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="@string/blur"
-                        android:textColor="@color/colorAccent"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="45dip"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="@string/paint1"
-                        android:textColor="@color/colorAccent"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="45dip"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="@string/paint2"
-                        android:textColor="@color/colorAccent"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <com.abg.mypaint.painview.ShaderTextView
-                        android:id="@+id/normal_brush"
-                        android:layout_width="40dip"
-                        android:layout_height="match_parent"
-                        android:text="|"
-                        android:textAlignment="center"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="50sp"
-                        android:textStyle="bold"
-                        shader:mask_id="normal"
-                        shader:mask_radius="14" />
-
-                    <com.abg.mypaint.painview.ShaderTextView
-                        android:id="@+id/inner_brush"
-                        android:layout_width="40dip"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="|"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="50sp"
-                        android:textStyle="bold"
-                        shader:mask_id="neon"
-                        shader:mask_radius="14" />
-
-                    <com.abg.mypaint.painview.ShaderTextView
-                        android:id="@+id/neon_brush"
-                        android:layout_width="40dip"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="|"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="50sp"
-                        android:textStyle="bold"
-                        shader:mask_id="inner"
-                        shader:mask_radius="14" />
-
-                    <com.abg.mypaint.painview.ShaderTextView
-                        android:id="@+id/blur_brush"
-                        android:layout_width="40dip"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="|"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="50sp"
-                        android:textStyle="bold"
-                        shader:mask_id="blur"
-                        shader:mask_radius="14" />
-
-                    <com.abg.mypaint.painview.ShaderTextView
-                        android:id="@+id/emboss_brush"
-                        android:layout_width="40dip"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="|"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="50sp"
-                        android:textStyle="bold"
-                        shader:mask_id="emboss"
-                        shader:mask_radius="14" />
-
-                    <com.abg.mypaint.painview.ShaderTextView
-                        android:id="@+id/deboss_brush"
-                        android:layout_width="40dip"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="|"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="50sp"
-                        android:textStyle="bold"
-                        shader:mask_id="deboss"
-                        shader:mask_radius="14" />
-                </LinearLayout>
-            </LinearLayout>
-        </HorizontalScrollView>
-
-        <FrameLayout
-            android:id="@+id/undo_frame"
-            android:layout_width="match_parent"
-            android:layout_height="64dip"
-            android:layout_gravity="end"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/save"
-                android:layout_width="36dip"
-                android:layout_height="48dip"
-                android:layout_gravity="start"
-                android:layout_marginEnd="60dip"
-                android:background="@android:color/transparent"
-                app:srcCompat="@drawable/save_fill0_wght400_grad0_opsz24" />
-
-            <LinearLayout
-                android:id="@+id/stroke_width_layout"
                 android:layout_width="match_parent"
-                android:layout_height="48dip"
-                android:layout_marginStart="50dip"
-                android:layout_marginEnd="106dip"
-                android:background="@drawable/brushes_background"
-                android:gravity="end"
-                android:orientation="vertical">
+                android:layout_height="20dip"
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/stroke_width_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Brush Width:14"
-                    android:textColor="#e04800"
+                    android:layout_width="40dip"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/neon"
+                    android:textColor="@color/colorAccent"
                     android:textStyle="bold" />
 
-                <SeekBar
-                    android:id="@+id/stroke_width_seekbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:progress="14" />
+                <TextView
+                    android:layout_width="40dip"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/fade"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="35dip"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/glow"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="35dip"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/blur"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="45dip"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/paint1"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="45dip"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/paint2"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold" />
+
             </LinearLayout>
 
-            <ImageButton
-                android:id="@+id/show_stroke_bar"
-                android:layout_width="36dip"
-                android:layout_height="48dip"
-                android:layout_gravity="end"
-                android:layout_marginEnd="60dip"
-                android:background="@android:color/transparent"
-                app:srcCompat="@drawable/ic_gestures" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/undo_btn"
-                android:layout_width="36dip"
-                android:layout_height="48dip"
-                android:layout_gravity="end"
-                android:layout_marginEnd="12dip"
-                android:background="@android:color/transparent"
-                app:srcCompat="@drawable/ic_undo" />
+                <com.abg.mypaint.painview.ShaderTextView
+                    android:id="@+id/normal_brush"
+                    android:layout_width="40dip"
+                    android:layout_height="match_parent"
+                    android:text="|"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="50sp"
+                    android:textStyle="bold"
+                    shader:mask_id="normal"
+                    shader:mask_radius="14" />
 
-        </FrameLayout>
+                <com.abg.mypaint.painview.ShaderTextView
+                    android:id="@+id/inner_brush"
+                    android:layout_width="40dip"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="|"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="50sp"
+                    android:textStyle="bold"
+                    shader:mask_id="neon"
+                    shader:mask_radius="14" />
+
+                <com.abg.mypaint.painview.ShaderTextView
+                    android:id="@+id/neon_brush"
+                    android:layout_width="40dip"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="|"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="50sp"
+                    android:textStyle="bold"
+                    shader:mask_id="inner"
+                    shader:mask_radius="14" />
+
+                <com.abg.mypaint.painview.ShaderTextView
+                    android:id="@+id/blur_brush"
+                    android:layout_width="40dip"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="|"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="50sp"
+                    android:textStyle="bold"
+                    shader:mask_id="blur"
+                    shader:mask_radius="14" />
+
+                <com.abg.mypaint.painview.ShaderTextView
+                    android:id="@+id/emboss_brush"
+                    android:layout_width="40dip"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="|"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="50sp"
+                    android:textStyle="bold"
+                    shader:mask_id="emboss"
+                    shader:mask_radius="14" />
+
+                <com.abg.mypaint.painview.ShaderTextView
+                    android:id="@+id/deboss_brush"
+                    android:layout_width="40dip"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="|"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="50sp"
+                    android:textStyle="bold"
+                    shader:mask_id="deboss"
+                    shader:mask_radius="14" />
+            </LinearLayout>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <FrameLayout
+        android:id="@+id/undo_frame"
+        android:layout_width="match_parent"
+        android:layout_height="64dip"
+        android:layout_gravity="end"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/save"
+            android:layout_width="36dip"
+            android:layout_height="48dip"
+            android:layout_gravity="start"
+            android:layout_marginEnd="60dip"
+            android:background="@android:color/transparent"
+            app:srcCompat="@drawable/save_fill0_wght400_grad0_opsz24" />
+
+        <LinearLayout
+            android:id="@+id/stroke_width_layout"
+            android:layout_width="match_parent"
+            android:layout_height="48dip"
+            android:layout_marginStart="50dip"
+            android:layout_marginEnd="106dip"
+            android:background="@drawable/brushes_background"
+            android:gravity="end"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/stroke_width_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Brush Width:14"
+                android:textColor="#e04800"
+                android:textStyle="bold" />
+
+            <SeekBar
+                android:id="@+id/stroke_width_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:progress="14" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/show_stroke_bar"
+            android:layout_width="36dip"
+            android:layout_height="48dip"
+            android:layout_gravity="end"
+            android:layout_marginEnd="60dip"
+            android:background="@android:color/transparent"
+            app:srcCompat="@drawable/ic_gestures" />
+
+        <ImageButton
+            android:id="@+id/undo_btn"
+            android:layout_width="36dip"
+            android:layout_height="48dip"
+            android:layout_gravity="end"
+            android:layout_marginEnd="12dip"
+            android:background="@android:color/transparent"
+            app:srcCompat="@drawable/ic_undo" />
 
     </FrameLayout>
+
 </FrameLayout>
