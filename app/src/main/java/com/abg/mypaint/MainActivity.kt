@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity(), DrawableOnTouchView.FileHandler, Permi
     override fun onSave(bitmap: Bitmap) {
 
         if (isPermissionGranted) {
-            ManagerFile.storePhotoOnDisk(bitmap)
+            ManagerFile.saveImage(bitmap, this)
         } else {
             request.send()
 

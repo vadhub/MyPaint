@@ -50,20 +50,6 @@ public class FingerPaintView extends AppCompatImageView {
         void onTouchUp();
     }
 
-    public interface OnColorPickerChanged {
-        void onColorChanged(int color);
-
-        void onStrokeWidthChanged(float strokeWidth);
-
-        void onBrushChanged(int brushId);
-    }
-
-    private OnColorPickerChanged colorPickerChanged = null;
-
-    public void setColorPickerChanged(OnColorPickerChanged colorPickerChanged) {
-        this.colorPickerChanged = colorPickerChanged;
-    }
-
     private OnUndoEmptyListener undoEmptyListener = null;
 
     public void setUndoEmptyListener(OnUndoEmptyListener undoEmptyListener) {
@@ -119,14 +105,12 @@ public class FingerPaintView extends AppCompatImageView {
     }
 
     public void setBrushColor(int color) {
-        if (colorPickerChanged != null) colorPickerChanged.onColorChanged(color);
         mPaint.setColor(color);
         lastColor = color;
 
     }
 
     public void setBrushStrokeWidth(float width) {
-        if (colorPickerChanged != null) colorPickerChanged.onStrokeWidthChanged(width);
         if (width > 0.f) lastStrokeWidth = width;
         if (lastStrokeWidth == 0.f) lastStrokeWidth = 12.f;
         mPaint.setStrokeWidth(lastStrokeWidth);
@@ -135,7 +119,6 @@ public class FingerPaintView extends AppCompatImageView {
     }
 
     public void setBrushType(int id) {
-        if (colorPickerChanged != null) colorPickerChanged.onBrushChanged(id);
         lastMaskFilter = idToMaskFilter(id, radius);
         mPaint.setMaskFilter(lastMaskFilter);
         undoPaint = mPaint;
@@ -177,11 +160,7 @@ public class FingerPaintView extends AppCompatImageView {
         try {
             canvas.drawColor(Color.TRANSPARENT);
             canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
-
-            if (!redraw) canvas.drawPath(mPath, mPaint);
-            else {
-                redraw();
-            }
+            if (!redraw) canvas.drawPath(mPath, mPaint); else redraw();
         } catch (Exception e) {
             Log.e("onDraw", e.getMessage());
         }
@@ -265,27 +244,25 @@ public class FingerPaintView extends AppCompatImageView {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        {
 
-            float x = event.getX();
-            float y = event.getY();
+        float x = event.getX();
+        float y = event.getY();
 
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    touch_start(x, y);
-                    invalidate();
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    touch_move(x, y);
-                    invalidate();
-                    break;
-                case MotionEvent.ACTION_UP:
-                    touch_up();
-                    invalidate();
-                    break;
-            }
-            return true;
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                touch_start(x, y);
+                invalidate();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                touch_move(x, y);
+                invalidate();
+                break;
+            case MotionEvent.ACTION_UP:
+                touch_up();
+                invalidate();
+                break;
         }
+        return true;
     }
 
     private static class PaintData {

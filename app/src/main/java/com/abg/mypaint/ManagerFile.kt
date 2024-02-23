@@ -1,7 +1,9 @@
 package com.abg.mypaint
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import java.io.File
 import java.io.FileOutputStream
@@ -16,18 +18,28 @@ object ManagerFile {
         val appDirectory = File(pictureDirectory, "MyPaint")
         if (!appDirectory.exists()) {
             appDirectory.mkdir()
-        val sdf = SimpleDateFormat("yyyyMMdd_HH_mm_SS", Locale.US)
-        val format = sdf.format(Date())
-        val photoFile = File(appDirectory, "$format.jpg")
+            val sdf = SimpleDateFormat("yyyyMMdd_HH_mm_SS", Locale.US)
+            val format = sdf.format(Date())
+            val photoFile = File(appDirectory, "$format.jpg")
 
-        try {
-            val fos = FileOutputStream(photoFile.path)
-            capturedBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
-            fos.flush()
-            fos.close()
-        } catch (e: IOException) {
-            Log.e("PictureDemo", "Exception in photoCallback", e)
-        }
+            try {
+                val fos = FileOutputStream(photoFile.path)
+                capturedBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
+                fos.flush()
+                fos.close()
+            } catch (e: IOException) {
+                Log.e("PictureDemo", "Exception in photoCallback", e)
+            }
         }
     }
+
+    fun saveImage(bitmap: Bitmap, context: Context) {
+        val sdf = SimpleDateFormat("yyyyMMdd_HH_mm_SS", Locale.US)
+        val format = sdf.format(Date())
+        MediaStore.Images.Media.insertImage(
+            context.contentResolver, bitmap, format, ""
+        )
+
+    }
+
 }
