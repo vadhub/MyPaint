@@ -28,46 +28,25 @@ import com.abg.mypaint.color.ColorPicker;
  */
 public class DrawableOnTouchView extends FrameLayout implements View.OnClickListener{
 
-    private ImageButton undo, painterIcon;
+    private ImageButton undo, painterIcon, save;
     private ShaderTextView normalBrush, neonBrush, innerBrush, blurBrush, embossBrush, debossBrush;
     private ColorPicker colorPicker;
     private FingerPaintView fingerPaintView;
-    private LinearLayout selectBrushFrame, strokeWidthFrame, drawActionLayout;
+    private LinearLayout selectBrushFrame, strokeWidthFrame;
     private FrameLayout undoFrame;
     private SeekBar strokeSeekbar;
     private Context context;
     private TextView strokeWidthStatus;
-    private FrameLayout mainFrame;
-    private ImageView onDoneIv;
-    private boolean controlsHidden = false;
+    private final boolean controlsHidden = false;
     private FrameLayout canvasFrame;
-    private OnColorChangedListener colorChangedListener;
+    private FileHandler fileHandler;
 
-    public interface OnColorChangedListener {
-        void onColorChanged(int color);
-        void onStrokeWidthChanged(float strokeWidth);
-        void onBrushChanged(int brushType);
+    public interface FileHandler {
+        void onSave(Bitmap bitmap);
     }
 
-    public void setColorChangedListener(final OnColorChangedListener colorChangedListener) {
-        this.colorChangedListener = colorChangedListener;
-        fingerPaintView.setColorPickerChanged(new FingerPaintView.OnColorPickerChanged() {
-            @Override
-            public void onColorChanged(int color) {
-                DrawableOnTouchView.this.colorChangedListener.onColorChanged(color);
-            }
-
-            @Override
-            public void onStrokeWidthChanged(float strokeWidth) {
-                DrawableOnTouchView.this.colorChangedListener.onStrokeWidthChanged(strokeWidth);
-            }
-
-            @Override
-            public void onBrushChanged(int brushId) {
-                DrawableOnTouchView.this.colorChangedListener.onBrushChanged(brushId);
-            }
-
-        });
+    public void setFileHandler(FileHandler fileHandler) {
+        this.fileHandler = fileHandler;
     }
 
     public DrawableOnTouchView(Context context) {
@@ -127,12 +106,16 @@ public class DrawableOnTouchView extends FrameLayout implements View.OnClickList
     }
 
     private void bindViews(View layout) {
+        save = layout.findViewById(R.id.save);
+        save.setOnClickListener(this);
+        selectBrushFrame = layout.findViewById(R.id.brush_option_frame);
+        strokeWidthFrame = layout.findViewById(R.id.stroke_width_layout);
+        strokeSeekbar = layout.findViewById(R.id.stroke_width_seekbar);
+
         undo = layout.findViewById(R.id.undo_btn);
         undo.setImageResource(R.drawable.ic_undo);
         painterIcon = layout.findViewById(R.id.show_stroke_bar);
         painterIcon.setImageResource(R.drawable.ic_gestures);
-        painterIcon.setClickable(false);
-        painterIcon.setVisibility(GONE);
 
         normalBrush = layout.findViewById(R.id.normal_brush);
         normalBrush.setOnClickListener(this);
@@ -165,20 +148,9 @@ public class DrawableOnTouchView extends FrameLayout implements View.OnClickList
         float location = context.getSharedPreferences("paint", Activity.MODE_PRIVATE).getFloat("last_color_location", 0.5f);
         fingerPaintView.setBrushColor(colorPicker.colorForLocation(location));
         fingerPaintView.setBrushStrokeWidth(12.f);
-
-        selectBrushFrame = layout.findViewById(R.id.brush_option_frame);
-        strokeWidthFrame = layout.findViewById(R.id.stroke_width_layout);
-
-        strokeSeekbar = layout.findViewById(R.id.stroke_width_seekbar);
         strokeSeekbar.setMax(50);
         strokeSeekbar.setProgress(14);
-
         strokeWidthStatus = layout.findViewById(R.id.stroke_width_status);
-
-        mainFrame = layout.findViewById(R.id.draw_main_frame);
-
-        onDoneIv = layout.findViewById(R.id.onDone_iv);
-
         undoFrame = layout.findViewById(R.id.undo_frame);
 
     }
@@ -285,6 +257,9 @@ public class DrawableOnTouchView extends FrameLayout implements View.OnClickList
         } else if (view.equals(debossBrush)) {
             fingerPaintView.setBrushType(BrushType.BRUSH_DEBOSS);
             showBrushOptions();
+        } else if (view.equals(save)) {
+            fileHandler.onSave(fingerPaintView.getmBitmap());
+            Log.d("save", "save");
         }
 
     }
