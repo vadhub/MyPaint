@@ -25,6 +25,7 @@ import androidx.fragment.app.Fragment;
 import com.abg.mypaint.R;
 import com.abg.mypaint.brush.BrushType;
 import com.abg.mypaint.color.ColorPicker;
+import com.abg.mypaint.local.Preferences;
 
 /**
  * Created by INFIi on 1/21/2017. refactoring by VadHub 😎 on 21/02/2024
@@ -138,14 +139,11 @@ public class DrawableFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onTouchDown() {
-
-        Log.d("dd", "touchDOwn");
         flipOnTouch(true);
     }
 
     @Override
     public void onTouchUp() {
-        Log.d("dd", "dd");
         flipOnTouch(false);
     }
 
@@ -214,9 +212,6 @@ public class DrawableFragment extends Fragment implements View.OnClickListener, 
         fingerPaintView = layout.findViewById(R.id.finger_paint);
         fingerPaintView.setUndoEmptyListener(this);
 
-        float location = getContext().getSharedPreferences("paint", Activity.MODE_PRIVATE).getFloat("last_color_location", 0.5f);
-        fingerPaintView.setBrushColor(colorPicker.colorForLocation(location));
-        fingerPaintView.setBrushStrokeWidth(12.f);
         strokeWidthStatus = layout.findViewById(R.id.stroke_width_status);
         undoFrame = layout.findViewById(R.id.undo_frame);
 

@@ -3,7 +3,6 @@ package com.abg.mypaint.color;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -11,17 +10,15 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.abg.mypaint.R;
 import com.abg.mypaint.Utils;
-import com.abg.mypaint.color.ColorAttribute;
+import com.abg.mypaint.local.Preferences;
 
 public class ColorPicker extends FrameLayout {
     public interface ColorPickerListener {
@@ -33,7 +30,7 @@ public class ColorPicker extends FrameLayout {
     private boolean interacting;
     private boolean changingWeight;
     private boolean wasChangingWeight;
-    private OvershootInterpolator interpolator = new OvershootInterpolator(1.02f);
+    private final OvershootInterpolator interpolator = new OvershootInterpolator(1.02f);
 
     private static final int[] COLORS = new int[]{
             0xffea2739,
@@ -61,32 +58,37 @@ public class ColorPicker extends FrameLayout {
 
     private ImageView settingsButton;
 
-    private Paint gradientPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private Paint backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private Paint swatchPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private Paint swatchStrokePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private RectF rectF = new RectF();
+    private final Paint gradientPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint swatchPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint swatchStrokePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final RectF rectF = new RectF();
 
     private float location = 1.0f;
     private float weight = 0.27f;
     private float draggingFactor;
     private boolean dragging;
+    private Preferences preferences;
 
     public ColorPicker(Context context) {
         super(context);
         init(context);
     }
-    public ColorPicker(Context context,AttributeSet attributeSet){
-        super(context,attributeSet);
+
+    public ColorPicker(Context context, AttributeSet attributeSet) {
+        super(context, attributeSet);
         init(context);
     }
-    public ColorPicker(Context context,AttributeSet attributeSet, int defStyle){
-        super(context,attributeSet,defStyle);
+
+    public ColorPicker(Context context, AttributeSet attributeSet, int defStyle) {
+        super(context, attributeSet, defStyle);
         init(context);
     }
-    void init(Context context){
+
+    void init(Context context) {
+        preferences = new Preferences(context);
         setWillNotDraw(false);
-        Utils.checkDisplaySize(context,null);
+        Utils.checkDisplaySize(context, null);
         backgroundPaint.setColor(0xffffffff);
         swatchStrokePaint.setStyle(Paint.Style.STROKE);
         swatchStrokePaint.setStrokeWidth(dp(1));
@@ -101,26 +103,19 @@ public class ColorPicker extends FrameLayout {
             }
         });
 
-
-        location = context.getSharedPreferences("paint", Activity.MODE_PRIVATE).getFloat("last_color_location", 0.5f);
-        weight=getContext().getSharedPreferences("paint",Context.MODE_PRIVATE).getFloat("stroke",0.27f);
-        if(weight!=0.27)weight/=50.f;
+        location = preferences.getLastColorLocation();
+        weight = preferences.getStrokeWidth();
+        if (weight != 0.27) weight /= 50.f;
         setLocation(location);
 
     }
 
     private int dp(float size) {
-        return (int) (size < 0 ? size : Utils.dp(getContext(),size));
+        return (int) (size < 0 ? size : Utils.dp(getContext(), size));
     }
 
     public void setColorPickerListener(ColorPickerListener colorPickerListener) {
         this.colorPickerListener = colorPickerListener;
-    }
-
-    public void setColorAttribute(ColorAttribute swatch) {
-        setLocation(swatch.getColorLocation());
-        setWeight(swatch.getBrushWeight());
-
     }
 
     public int colorForLocation(float location) {
@@ -185,7 +180,6 @@ public class ColorPicker extends FrameLayout {
             swatchStrokePaint.setColor(color);
         }
 
-
         invalidate();
     }
 
@@ -203,7 +197,7 @@ public class ColorPicker extends FrameLayout {
         float x = event.getX() - rectF.left;
         float y = event.getY() - rectF.top;
 
-        if (!interacting && x < -Utils.dp(getContext(),10)) {
+        if (!interacting && x < -Utils.dp(getContext(), 10)) {
             return false;
         }
 
@@ -211,13 +205,12 @@ public class ColorPicker extends FrameLayout {
         if (action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_POINTER_UP) {
             if (interacting && colorPickerListener != null) {
                 colorPickerListener.onFinishedColorPicking(colorForLocation(location));
-
-                getContext().getSharedPreferences("paint", Activity.MODE_PRIVATE).edit().putFloat("last_color_location", location).apply();
+                preferences.saveLastColorLocation(location);
             }
             interacting = false;
             wasChangingWeight = changingWeight;
             changingWeight = false;
-            setDragging(false, true);
+            setDragging(false);
         } else if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_MOVE) {
             if (!interacting) {
                 interacting = true;
@@ -225,8 +218,7 @@ public class ColorPicker extends FrameLayout {
 
             float colorLocation = Math.max(0.0f, Math.min(1.0f, y / rectF.height()));
             setLocation(colorLocation);
-
-            setDragging(true, true);
+            setDragging(true);
 
             if (x < -dp(10)) {
                 changingWeight = true;
@@ -260,34 +252,30 @@ public class ColorPicker extends FrameLayout {
         canvas.drawRoundRect(rectF, dp(6), dp(6), gradientPaint);
         int cx = (int) (rectF.centerX() + draggingFactor * -dp(70));
         int cy = (int) (rectF.top - dp(22) + rectF.height() * location) + dp(22);
-        float swatchRadius = (dp(4) + (dp(19) - dp(4))) /1.5f;
-        canvas.drawRect(cx,cy-dp(1),rectF.centerX(),cy+dp(1),swatchStrokePaint);
+        float swatchRadius = (dp(4) + (dp(19) - dp(4))) / 1.5f;
+        canvas.drawRect(cx, cy - dp(1), rectF.centerX(), cy + dp(1), swatchStrokePaint);
         canvas.drawCircle(cx, cy, swatchRadius, swatchPaint);
         canvas.drawCircle(cx, cy, swatchRadius - dp(0.5f), swatchStrokePaint);
     }
 
-    private void setDraggingFactor(float factor) {
-        draggingFactor = factor;
-        invalidate();
-    }
-
-    private void setDragging(boolean value, boolean animated) {
+    private void setDragging(boolean value) {
         if (dragging == value) {
             return;
         }
         dragging = value;
         float target = dragging ? 1.0f : 0.0f;
-        if (animated) {
-            Animator a = ObjectAnimator.ofFloat(this, "draggingFactor", draggingFactor, target);
-            a.setInterpolator(interpolator);
-            int duration = 300;
-            if (wasChangingWeight) {
-                duration += weight * 75;
-            }
-            a.setDuration(duration);
-            a.start();
-        } else {
-            setDraggingFactor(target);
+        Animator a = ObjectAnimator.ofFloat(this, "draggingFactor", draggingFactor, target);
+        a.setInterpolator(interpolator);
+        int duration = 300;
+        if (wasChangingWeight) {
+            duration += weight * 75;
         }
+        a.setDuration(duration);
+        a.start();
+    }
+
+    private void setDraggingFactor(float factor) {
+        draggingFactor = factor;
+        invalidate();
     }
 }

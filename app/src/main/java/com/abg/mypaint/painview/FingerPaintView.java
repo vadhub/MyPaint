@@ -15,6 +15,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 
 import com.abg.mypaint.brush.Brush;
 import com.abg.mypaint.brush.BrushType;
+import com.abg.mypaint.local.Preferences;
 
 import java.util.ArrayList;
 
@@ -36,6 +37,7 @@ public class FingerPaintView extends AppCompatImageView {
     private MaskFilter lastMaskFilter;
     private float mX, mY;
     private static final float TOUCH_TOLERANCE = 4;
+    private Preferences preferences;
 
     public interface OnUndoEmptyListener {
         void undoListEmpty();
@@ -68,12 +70,13 @@ public class FingerPaintView extends AppCompatImageView {
         init(context);
     }
 
-    private void init(Context c) {
+    private void init(Context context) {
+        preferences = new Preferences(context);
         mPaint = new Paint();
 
         lastColor = 0xffff0000;
-        lastStrokeWidth = c.getSharedPreferences("paint", Context.MODE_PRIVATE).getFloat("stroke", 12.0f);
-        lastMaskFilter = idToMaskFilter(c.getSharedPreferences("paint", Context.MODE_PRIVATE).getInt("id", BrushType.BRUSH_SOLID), radius = 28);
+        lastStrokeWidth = preferences.getStrokeWidth();
+        lastMaskFilter = idToMaskFilter(preferences.getBrushId(), radius = 28);
 
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
@@ -86,7 +89,7 @@ public class FingerPaintView extends AppCompatImageView {
 
         undoPaint = mPaint;
         redraw = false;
-        DisplayMetrics displayMetrics = c.getResources().getDisplayMetrics();
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         width = displayMetrics.widthPixels;
         height = displayMetrics.heightPixels;
         mBitmap = Bitmap.createBitmap(displayMetrics.widthPixels, displayMetrics.heightPixels, Bitmap.Config.ARGB_8888);
@@ -113,14 +116,14 @@ public class FingerPaintView extends AppCompatImageView {
         if (lastStrokeWidth == 0.f) lastStrokeWidth = 12.f;
         mPaint.setStrokeWidth(lastStrokeWidth);
         undoPaint = mPaint;
-        getContext().getSharedPreferences("paint", Context.MODE_PRIVATE).edit().putFloat("stroke", lastStrokeWidth).apply();
+        preferences.saveStrokeWidth(lastStrokeWidth);
     }
 
     public void setBrushType(int id) {
         lastMaskFilter = idToMaskFilter(id, radius);
         mPaint.setMaskFilter(lastMaskFilter);
         undoPaint = mPaint;
-        getContext().getSharedPreferences("paint", Context.MODE_PRIVATE).edit().putInt("id", id).apply();
+        preferences.saveBrushId(id);
     }
 
     private MaskFilter idToMaskFilter(int id, float radius) {

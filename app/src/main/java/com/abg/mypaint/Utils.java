@@ -53,9 +53,8 @@ public class Utils {
                     displaySize.y = newSize;
                 }
             }
-            Log.w("display size = " , displaySize.x + " " + displaySize.y + " " + displayMetrics.xdpi + "x" + displayMetrics.ydpi);
         } catch (Exception e) {
-            Log.e("checkdisplay",e.getMessage());
+            Log.d("checkdisplay",e.toString());
         }
     }
     public static int convertDpToPixel(Context context,float dp){
