@@ -1,4 +1,4 @@
-package com.abg.mypaint.brush;
+package com.abg.mypaint.ui.brush;
 
 public class BrushType {
     public static final int BRUSH_SOLID = 0;

@@ -5,14 +5,13 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.MaskFilter;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.widget.AppCompatTextView;
 
 import com.abg.mypaint.R;
-import com.abg.mypaint.brush.Brush;
-import com.abg.mypaint.brush.BrushType;
+import com.abg.mypaint.ui.brush.Brush;
+import com.abg.mypaint.ui.brush.BrushType;
 
 public class ShaderTextView extends AppCompatTextView {
 

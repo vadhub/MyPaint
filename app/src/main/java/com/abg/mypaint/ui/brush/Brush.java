@@ -1,4 +1,4 @@
-package com.abg.mypaint.brush;
+package com.abg.mypaint.ui.brush;
 
 import android.graphics.BlurMaskFilter;
 import android.graphics.EmbossMaskFilter;

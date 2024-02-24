@@ -13,8 +13,8 @@ import android.view.MotionEvent;
 
 import androidx.appcompat.widget.AppCompatImageView;
 
-import com.abg.mypaint.brush.Brush;
-import com.abg.mypaint.brush.BrushType;
+import com.abg.mypaint.ui.brush.Brush;
+import com.abg.mypaint.ui.brush.BrushType;
 import com.abg.mypaint.local.Preferences;
 
 import java.util.ArrayList;
@@ -120,7 +120,6 @@ public class FingerPaintView extends AppCompatImageView {
     }
 
     public void setBrushType(int id) {
-
         lastMaskFilter = idToMaskFilter(id, radius);
         mPaint.setMaskFilter(lastMaskFilter);
         undoPaint = mPaint;

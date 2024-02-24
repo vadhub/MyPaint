@@ -2,7 +2,7 @@ package com.abg.mypaint.local
 
 import android.app.Activity
 import android.content.Context
-import com.abg.mypaint.brush.BrushType
+import com.abg.mypaint.ui.brush.BrushType
 
 class Preferences(private val context: Context) {
 
