@@ -74,7 +74,7 @@ public class FingerPaintView extends AppCompatImageView {
         preferences = new Preferences(context);
         mPaint = new Paint();
 
-        lastColor = 0xffff0000;
+        lastColor = preferences.getLastColor();
         lastStrokeWidth = preferences.getStrokeWidth();
         lastMaskFilter = idToMaskFilter(preferences.getBrushId(), radius = 28);
 
@@ -93,7 +93,7 @@ public class FingerPaintView extends AppCompatImageView {
         width = displayMetrics.widthPixels;
         height = displayMetrics.heightPixels;
         mBitmap = Bitmap.createBitmap(displayMetrics.widthPixels, displayMetrics.heightPixels, Bitmap.Config.ARGB_8888);
-        mBitmap.eraseColor(0xFFFFFFFF);
+        mBitmap.eraseColor(0xFFFFFFFF); // by default WHITE background
         mCanvas = new Canvas(mBitmap);
         mPath = new Path();
         pathList.add(new PaintData(lastColor, lastStrokeWidth, lastMaskFilter, mPath));
@@ -108,7 +108,7 @@ public class FingerPaintView extends AppCompatImageView {
     public void setBrushColor(int color) {
         mPaint.setColor(color);
         lastColor = color;
-
+        preferences.saveLastColor(lastColor);
     }
 
     public void setBrushStrokeWidth(float width) {

@@ -15,52 +15,50 @@ public class Utils {
     public static DisplayMetrics displayMetrics = new DisplayMetrics();
     private static final Point displaySize = new Point();
 
-    public static int dp(Context context,float value) {
+    public static int dp(Context context, float value) {
         if (value == 0) {
             return 0;
         }
-        if(density!=1) {
+        if (density != 1) {
             return (int) Math.ceil(density * value);
         }
-        return convertDpToPixel(context,value);
+        return convertDpToPixel(context, value);
     }
 
     public static void checkDisplaySize(Context context, Configuration newConfiguration) {
-        try {
-            density = context.getResources().getDisplayMetrics().density;
-            Configuration configuration = newConfiguration;
-            if (configuration == null) {
-                configuration = context.getResources().getConfiguration();
-            }
 
-            WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-            if (manager != null) {
-                Display display = manager.getDefaultDisplay();
-                if (display != null) {
-                    display.getMetrics(displayMetrics);
-                    display.getSize(displaySize);
-                }
+        density = context.getResources().getDisplayMetrics().density;
+        Configuration configuration = newConfiguration;
+        if (configuration == null) {
+            configuration = context.getResources().getConfiguration();
+        }
+
+        WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        if (manager != null) {
+            Display display = manager.getDefaultDisplay();
+            if (display != null) {
+                display.getMetrics(displayMetrics);
+                display.getSize(displaySize);
             }
-            if (configuration.screenWidthDp != Configuration.SCREEN_WIDTH_DP_UNDEFINED) {
-                int newSize = (int) Math.ceil(configuration.screenWidthDp * density);
-                if (Math.abs(displaySize.x - newSize) > 3) {
-                    displaySize.x = newSize;
-                }
+        }
+        if (configuration.screenWidthDp != Configuration.SCREEN_WIDTH_DP_UNDEFINED) {
+            int newSize = (int) Math.ceil(configuration.screenWidthDp * density);
+            if (Math.abs(displaySize.x - newSize) > 3) {
+                displaySize.x = newSize;
             }
-            if (configuration.screenHeightDp != Configuration.SCREEN_HEIGHT_DP_UNDEFINED) {
-                int newSize = (int) Math.ceil(configuration.screenHeightDp * density);
-                if (Math.abs(displaySize.y - newSize) > 3) {
-                    displaySize.y = newSize;
-                }
+        }
+        if (configuration.screenHeightDp != Configuration.SCREEN_HEIGHT_DP_UNDEFINED) {
+            int newSize = (int) Math.ceil(configuration.screenHeightDp * density);
+            if (Math.abs(displaySize.y - newSize) > 3) {
+                displaySize.y = newSize;
             }
-        } catch (Exception e) {
-            Log.d("checkdisplay",e.toString());
         }
     }
-    public static int convertDpToPixel(Context context,float dp){
+
+    public static int convertDpToPixel(Context context, float dp) {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         float px = dp * (metrics.densityDpi / 160f);
-        return (int)px;
+        return (int) px;
     }
 }

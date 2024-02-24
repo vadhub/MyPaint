@@ -3,11 +3,10 @@ package com.abg.mypaint.painview;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-import android.app.Activity;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,6 @@ import androidx.fragment.app.Fragment;
 import com.abg.mypaint.R;
 import com.abg.mypaint.brush.BrushType;
 import com.abg.mypaint.color.ColorPicker;
-import com.abg.mypaint.local.Preferences;
 
 /**
  * Created by INFIi on 1/21/2017. refactoring by VadHub 😎 on 21/02/2024
@@ -33,7 +31,7 @@ import com.abg.mypaint.local.Preferences;
 public class DrawableFragment extends Fragment implements View.OnClickListener, FingerPaintView.OnUndoEmptyListener, SeekBar.OnSeekBarChangeListener, ColorPicker.ColorPickerListener {
 
     private ImageButton undo, painterIcon, save;
-    private ShaderTextView normalBrush, neonBrush, innerBrush, blurBrush, embossBrush, debossBrush;
+    private ShaderTextView solidBrush, neonBrush, innerBrush, blurBrush, embossBrush, debossBrush;
     private ColorPicker colorPicker;
     private FingerPaintView fingerPaintView;
     private LinearLayout selectBrushFrame, strokeWidthFrame;
@@ -80,10 +78,11 @@ public class DrawableFragment extends Fragment implements View.OnClickListener, 
         showBrushOptions();
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         if (fromUser) {
-            strokeWidthStatus.setText("Stroke Width:" + progress);
+            strokeWidthStatus.setText(getString(R.string.stroke_width) + progress);
         }
     }
 
@@ -99,7 +98,7 @@ public class DrawableFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onClick(View view) {
-        if (view.equals(normalBrush)) {
+        if (view.equals(solidBrush)) {
             fingerPaintView.setBrushType(BrushType.BRUSH_SOLID);
             showBrushOptions();
         } else if (view.equals(neonBrush)) {
@@ -182,9 +181,9 @@ public class DrawableFragment extends Fragment implements View.OnClickListener, 
         painterIcon.setImageResource(R.drawable.ic_gestures);
         painterIcon.setOnClickListener(this);
 
-        normalBrush = layout.findViewById(R.id.normal_brush);
-        normalBrush.setOnClickListener(this);
-        enableShader(normalBrush, BrushType.BRUSH_SOLID);
+        solidBrush = layout.findViewById(R.id.normal_brush);
+        solidBrush.setOnClickListener(this);
+        enableShader(solidBrush, BrushType.BRUSH_SOLID);
 
         neonBrush = layout.findViewById(R.id.neon_brush);
         neonBrush.setOnClickListener(this);
@@ -216,7 +215,6 @@ public class DrawableFragment extends Fragment implements View.OnClickListener, 
         undoFrame = layout.findViewById(R.id.undo_frame);
 
     }
-
 
 }
 

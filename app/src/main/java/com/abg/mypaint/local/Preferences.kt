@@ -11,7 +11,8 @@ class Preferences(private val context: Context) {
         private const val NAME = "paint"
         private const val KEY_STROKE = "stroke"
         private const val KEY_ID = "id"
-        private const val LAST_COLOR = "last_color_location"
+        private const val LAST_COLOR_LOCATION = "last_color_location"
+        private const val LAST_COLOR = "last_color"
     }
 
     fun saveStrokeWidth(lastStrokeWidth: Float) {
@@ -34,8 +35,16 @@ class Preferences(private val context: Context) {
         context
             .getSharedPreferences(NAME, Activity.MODE_PRIVATE)
             .edit()
-            .putFloat(LAST_COLOR, location)
-            .apply();
+            .putFloat(LAST_COLOR_LOCATION, location)
+            .apply()
+    }
+
+    fun saveLastColor(color: Int) {
+        context
+            .getSharedPreferences(NAME, Activity.MODE_PRIVATE)
+            .edit()
+            .putInt(LAST_COLOR, color)
+            .apply()
     }
 
     fun getStrokeWidth(): Float = context
@@ -48,5 +57,9 @@ class Preferences(private val context: Context) {
 
     fun getLastColorLocation(): Float = context
         .getSharedPreferences(NAME, Activity.MODE_PRIVATE)
-        .getFloat(LAST_COLOR, 0.5f)
+        .getFloat(LAST_COLOR_LOCATION, 0.5f)
+
+    fun getLastColor(): Int = context
+        .getSharedPreferences(NAME, Activity.MODE_PRIVATE)
+        .getInt(LAST_COLOR, -0x10000)
 }

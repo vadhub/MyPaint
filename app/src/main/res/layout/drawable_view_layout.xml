@@ -42,6 +42,8 @@
             android:id="@+id/brush_option_frame"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:background="@drawable/brushes_background"
+            android:padding="8dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -86,7 +88,7 @@
                     android:layout_width="45dip"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="@string/paint1"
+                    android:text="@string/emboss"
                     android:textColor="@color/colorAccent"
                     android:textStyle="bold" />
 
@@ -94,7 +96,7 @@
                     android:layout_width="45dip"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="@string/paint2"
+                    android:text="@string/deboss"
                     android:textColor="@color/colorAccent"
                     android:textStyle="bold" />
 
@@ -114,8 +116,8 @@
                     android:textColor="@color/colorAccent"
                     android:textSize="50sp"
                     android:textStyle="bold"
-                    shader:mask_id="normal"
-                    shader:mask_radius="14" />
+                    shader:mask_id="solid"
+                    shader:mask_radius="1" />
 
                 <com.abg.mypaint.painview.ShaderTextView
                     android:id="@+id/inner_brush"
@@ -176,6 +178,7 @@
                     android:textStyle="bold"
                     shader:mask_id="deboss"
                     shader:mask_radius="14" />
+
             </LinearLayout>
         </LinearLayout>
     </HorizontalScrollView>
@@ -193,7 +196,7 @@
             android:layout_height="48dip"
             android:layout_gravity="start"
             android:layout_marginEnd="60dip"
-            android:background="@android:color/transparent"
+            android:background="@drawable/brushes_background"
             app:srcCompat="@drawable/save_fill0_wght400_grad0_opsz24" />
 
         <LinearLayout
@@ -228,7 +231,7 @@
             android:layout_height="48dip"
             android:layout_gravity="end"
             android:layout_marginEnd="60dip"
-            android:background="@android:color/transparent"
+            android:background="@drawable/brushes_background"
             app:srcCompat="@drawable/ic_gestures" />
 
         <ImageButton
@@ -237,7 +240,7 @@
             android:layout_height="48dip"
             android:layout_gravity="end"
             android:layout_marginEnd="12dip"
-            android:background="@android:color/transparent"
+            android:background="@drawable/brushes_background"
             app:srcCompat="@drawable/ic_undo" />
 
     </FrameLayout>
