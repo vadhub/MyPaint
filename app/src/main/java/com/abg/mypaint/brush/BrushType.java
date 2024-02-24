@@ -7,4 +7,5 @@ public class BrushType {
     public static final int BRUSH_BLUR = 3;
     public static final int BRUSH_EMBOSS = 4;
     public static final int BRUSH_DEBOSS = 5;
+    public static final int BRUSH_DEFAULT = 6;
 }

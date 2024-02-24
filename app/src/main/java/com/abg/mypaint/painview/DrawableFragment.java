@@ -31,7 +31,7 @@ import com.abg.mypaint.color.ColorPicker;
 public class DrawableFragment extends Fragment implements View.OnClickListener, FingerPaintView.OnUndoEmptyListener, SeekBar.OnSeekBarChangeListener, ColorPicker.ColorPickerListener {
 
     private ImageButton undo, painterIcon, save;
-    private ShaderTextView solidBrush, neonBrush, innerBrush, blurBrush, embossBrush, debossBrush;
+    private ShaderTextView defaultBrush, solidBrush, neonBrush, innerBrush, blurBrush, embossBrush, debossBrush;
     private ColorPicker colorPicker;
     private FingerPaintView fingerPaintView;
     private LinearLayout selectBrushFrame, strokeWidthFrame;
@@ -122,6 +122,9 @@ public class DrawableFragment extends Fragment implements View.OnClickListener, 
             fingerPaintView.onUndo();
         } else if (view.equals(painterIcon)) {
             strokeWidthFrame.setVisibility(strokeWidthFrame.getVisibility() == VISIBLE ? View.INVISIBLE : VISIBLE);
+        } else if (view.equals(defaultBrush)) {
+            fingerPaintView.setBrushType(BrushType.BRUSH_DEFAULT);
+            showBrushOptions();
         }
 
     }
@@ -158,7 +161,7 @@ public class DrawableFragment extends Fragment implements View.OnClickListener, 
         strokeWidthFrame.setVisibility(show ? VISIBLE : GONE);
     }
 
-    private void enableShader(ShaderTextView shaderTextView,int filterId){
+    private void enableShader(ShaderTextView shaderTextView, int filterId) {
         shaderTextView.setFilterId(filterId);
         shaderTextView.setRadius(16);
         shaderTextView.enableMask();
@@ -177,11 +180,16 @@ public class DrawableFragment extends Fragment implements View.OnClickListener, 
         undo = layout.findViewById(R.id.undo_btn);
         undo.setOnClickListener(this);
         undo.setImageResource(R.drawable.ic_undo);
+
         painterIcon = layout.findViewById(R.id.show_stroke_bar);
         painterIcon.setImageResource(R.drawable.ic_gestures);
         painterIcon.setOnClickListener(this);
 
-        solidBrush = layout.findViewById(R.id.normal_brush);
+        defaultBrush = layout.findViewById(R.id.default_brush);
+        defaultBrush.setOnClickListener(this);
+        enableShader(defaultBrush, BrushType.BRUSH_DEFAULT);
+
+        solidBrush = layout.findViewById(R.id.solid_brush);
         solidBrush.setOnClickListener(this);
         enableShader(solidBrush, BrushType.BRUSH_SOLID);
 

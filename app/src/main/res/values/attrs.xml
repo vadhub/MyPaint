@@ -13,6 +13,7 @@
             <enum name="blur" value="3" />
             <enum name="emboss" value="4" />
             <enum name="deboss" value="5" />
+            <enum name="def" value="6" />
         </attr>
         <attr name="mask_radius" format="integer" />
     </declare-styleable>

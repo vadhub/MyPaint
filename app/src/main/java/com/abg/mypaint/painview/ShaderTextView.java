@@ -21,7 +21,6 @@ public class ShaderTextView extends AppCompatTextView {
 
     public ShaderTextView(Context context) {
         super(context);
-
     }
 
     public ShaderTextView(Context context, AttributeSet attrs) {
@@ -59,9 +58,7 @@ public class ShaderTextView extends AppCompatTextView {
     }
 
     private MaskFilter idToMaskFilter(int id, float radius){
-        Log.d("Brush Id: ",id+"");
         switch (id){
-
             case BrushType.BRUSH_NEON:
                 return Brush.setNeonBrush(radius);
             case BrushType.BRUSH_BLUR:
@@ -72,6 +69,8 @@ public class ShaderTextView extends AppCompatTextView {
                 return Brush.setEmbossBrush();
             case BrushType.BRUSH_DEBOSS:
                 return Brush.setDebossBrush();
+            case BrushType.BRUSH_DEFAULT:
+                return null;
             default:
                 return Brush.setSolidBrush(radius);
 

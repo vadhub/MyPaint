@@ -56,6 +56,14 @@
                     android:layout_width="40dip"
                     android:layout_height="match_parent"
                     android:gravity="center"
+                    android:text="@string/normal"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="40dip"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
                     android:text="@string/neon"
                     android:textColor="@color/colorAccent"
                     android:textStyle="bold" />
@@ -108,7 +116,19 @@
                 android:orientation="horizontal">
 
                 <com.abg.mypaint.painview.ShaderTextView
-                    android:id="@+id/normal_brush"
+                    android:id="@+id/default_brush"
+                    android:layout_width="40dip"
+                    android:layout_height="match_parent"
+                    android:text="|"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="50sp"
+                    android:textStyle="bold"
+                    shader:mask_id="def"
+                    shader:mask_radius="1" />
+
+                <com.abg.mypaint.painview.ShaderTextView
+                    android:id="@+id/solid_brush"
                     android:layout_width="40dip"
                     android:layout_height="match_parent"
                     android:text="|"

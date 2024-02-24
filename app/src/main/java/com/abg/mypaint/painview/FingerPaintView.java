@@ -120,6 +120,7 @@ public class FingerPaintView extends AppCompatImageView {
     }
 
     public void setBrushType(int id) {
+
         lastMaskFilter = idToMaskFilter(id, radius);
         mPaint.setMaskFilter(lastMaskFilter);
         undoPaint = mPaint;
@@ -139,6 +140,8 @@ public class FingerPaintView extends AppCompatImageView {
                 return Brush.setEmbossBrush();
             case BrushType.BRUSH_DEBOSS:
                 return Brush.setDebossBrush();
+            case BrushType.BRUSH_DEFAULT:
+                return null;
             default:
                 return Brush.setSolidBrush(radius);
 
