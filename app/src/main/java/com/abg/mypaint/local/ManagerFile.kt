@@ -1,4 +1,4 @@
-package com.abg.mypaint
+package com.abg.mypaint.local
 
 import android.content.Context
 import android.graphics.Bitmap

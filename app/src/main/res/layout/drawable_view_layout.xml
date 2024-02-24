@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <com.abg.mypaint.painview.FingerPaintView
+    <com.abg.mypaint.ui.FingerPaintView
         android:id="@+id/finger_paint"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
@@ -19,7 +19,7 @@
         android:background="@android:color/transparent"
         android:clickable="false" />
 
-    <com.abg.mypaint.color.ColorPicker
+    <com.abg.mypaint.ui.ColorPicker
         android:id="@+id/color_picker"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -115,7 +115,7 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <com.abg.mypaint.painview.ShaderTextView
+                <com.abg.mypaint.ui.ShaderTextView
                     android:id="@+id/default_brush"
                     android:layout_width="40dip"
                     android:layout_height="match_parent"
@@ -127,7 +127,7 @@
                     shader:mask_id="def"
                     shader:mask_radius="1" />
 
-                <com.abg.mypaint.painview.ShaderTextView
+                <com.abg.mypaint.ui.ShaderTextView
                     android:id="@+id/solid_brush"
                     android:layout_width="40dip"
                     android:layout_height="match_parent"
@@ -139,7 +139,7 @@
                     shader:mask_id="solid"
                     shader:mask_radius="1" />
 
-                <com.abg.mypaint.painview.ShaderTextView
+                <com.abg.mypaint.ui.ShaderTextView
                     android:id="@+id/inner_brush"
                     android:layout_width="40dip"
                     android:layout_height="match_parent"
@@ -151,7 +151,7 @@
                     shader:mask_id="neon"
                     shader:mask_radius="14" />
 
-                <com.abg.mypaint.painview.ShaderTextView
+                <com.abg.mypaint.ui.ShaderTextView
                     android:id="@+id/neon_brush"
                     android:layout_width="40dip"
                     android:layout_height="match_parent"
@@ -163,7 +163,7 @@
                     shader:mask_id="inner"
                     shader:mask_radius="14" />
 
-                <com.abg.mypaint.painview.ShaderTextView
+                <com.abg.mypaint.ui.ShaderTextView
                     android:id="@+id/blur_brush"
                     android:layout_width="40dip"
                     android:layout_height="match_parent"
@@ -175,7 +175,7 @@
                     shader:mask_id="blur"
                     shader:mask_radius="14" />
 
-                <com.abg.mypaint.painview.ShaderTextView
+                <com.abg.mypaint.ui.ShaderTextView
                     android:id="@+id/emboss_brush"
                     android:layout_width="40dip"
                     android:layout_height="match_parent"
@@ -187,7 +187,7 @@
                     shader:mask_id="emboss"
                     shader:mask_radius="14" />
 
-                <com.abg.mypaint.painview.ShaderTextView
+                <com.abg.mypaint.ui.ShaderTextView
                     android:id="@+id/deboss_brush"
                     android:layout_width="40dip"
                     android:layout_height="match_parent"

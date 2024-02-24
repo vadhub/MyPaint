@@ -1,4 +1,4 @@
-package com.abg.mypaint.painview;
+package com.abg.mypaint.ui;
 
 import android.content.Context;
 import android.graphics.Bitmap;

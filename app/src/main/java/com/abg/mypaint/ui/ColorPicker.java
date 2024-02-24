@@ -1,4 +1,4 @@
-package com.abg.mypaint.color;
+package com.abg.mypaint.ui;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;

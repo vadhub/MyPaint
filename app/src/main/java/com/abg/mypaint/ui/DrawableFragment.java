@@ -1,4 +1,4 @@
-package com.abg.mypaint.painview;
+package com.abg.mypaint.ui;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -23,7 +23,6 @@ import androidx.fragment.app.Fragment;
 
 import com.abg.mypaint.R;
 import com.abg.mypaint.brush.BrushType;
-import com.abg.mypaint.color.ColorPicker;
 
 /**
  * Created by INFIi on 1/21/2017. refactoring by VadHub 😎 on 21/02/2024

@@ -4,11 +4,9 @@ import android.Manifest
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.widget.FrameLayout
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.abg.mypaint.painview.DrawableFragment
+import com.abg.mypaint.local.ManagerFile
+import com.abg.mypaint.ui.DrawableFragment
 import com.fondesa.kpermissions.PermissionStatus
 import com.fondesa.kpermissions.allGranted
 import com.fondesa.kpermissions.anyPermanentlyDenied
@@ -39,7 +37,9 @@ class MainActivity : AppCompatActivity(), DrawableFragment.FileHandler, Permissi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         request.addListener(this)
-        supportFragmentManager.beginTransaction().add(R.id.fragment_container, DrawableFragment()).commit()
+        supportFragmentManager.beginTransaction().add(R.id.fragment_container,
+            DrawableFragment()
+        ).commit()
     }
 
     override fun onSave(bitmap: Bitmap) {
