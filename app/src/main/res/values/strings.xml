@@ -4,12 +4,13 @@
     <string name="fade">Fade</string>
     <string name="glow">Glow</string>
     <string name="blur">Blur</string>
-    <string name="paint1">Paint1</string>
-    <string name="paint2">Paint2</string>
+    <string name="emboss">Emboss</string>
+    <string name="deboss">Deboss</string>
     <string name="granted_permissions">Granted: %s</string>
     <string name="permanently_denied_permissions">Permanently denied: %s</string>
     <string name="permissions_required">Permissions required</string>
     <string name="rationale_permissions">Rationale: %s</string>
     <string name="request_again">Request again</string>
     <string name="action_settings">Settings</string>
+    <string name="stroke_width">Stroke Width: </string>
 </resources>
