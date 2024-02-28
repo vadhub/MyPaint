@@ -159,6 +159,13 @@ public class FingerPaintView extends AppCompatImageView {
         }
     }
 
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        mBitmap.eraseColor(0xFFFFFFFF); // by default WHITE background
+        mCanvas = new Canvas(mBitmap);
+    }
+
     private void touchStart(float x, float y) {
         if (undoEmptyListener != null) undoEmptyListener.onTouchDown();
         mPath.reset();
@@ -203,7 +210,7 @@ public class FingerPaintView extends AppCompatImageView {
                 if (undoEmptyListener != null) undoEmptyListener.undoListEmpty();
             }
         } catch (Exception e) {
-            Log.e("onUndo", e.getMessage());
+            Log.d("onUndo", e.toString());
         }
     }
 
