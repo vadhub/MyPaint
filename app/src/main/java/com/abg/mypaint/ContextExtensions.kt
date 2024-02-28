@@ -9,13 +9,13 @@ import android.widget.Toast
 import com.fondesa.kpermissions.PermissionStatus
 import com.fondesa.kpermissions.request.PermissionRequest
 
-internal fun Context.showGrantedToast(permissions: List<PermissionStatus>) {
-    val msg = getString(R.string.granted_permissions, permissions.toMessage<PermissionStatus.Granted>())
+internal fun Context.showGrantedToast() {
+    val msg = getString(R.string.granted_permissions)
     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
 }
 
-internal fun Context.showRationaleDialog(permissions: List<PermissionStatus>, request: PermissionRequest) {
-    val msg = getString(R.string.rationale_permissions, permissions.toMessage<PermissionStatus.Denied.ShouldShowRationale>())
+internal fun Context.showRationaleDialog(request: PermissionRequest) {
+    val msg = getString(R.string.rationale_permissions)
 
     AlertDialog.Builder(this)
         .setTitle(R.string.permissions_required)
@@ -28,8 +28,8 @@ internal fun Context.showRationaleDialog(permissions: List<PermissionStatus>, re
         .show()
 }
 
-internal fun Context.showPermanentlyDeniedDialog(permissions: List<PermissionStatus>) {
-    val msg = getString(R.string.permanently_denied_permissions, permissions.toMessage<PermissionStatus.Denied.Permanently>())
+internal fun Context.showPermanentlyDeniedDialog() {
+    val msg = getString(R.string.permanently_denied_permissions)
 
     AlertDialog.Builder(this)
         .setTitle(R.string.permissions_required)
@@ -47,6 +47,3 @@ private fun Context.createAppSettingsIntent() = Intent().apply {
     action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
     data = Uri.fromParts("package", packageName, null)
 }
-
-private inline fun <reified T : PermissionStatus> List<PermissionStatus>.toMessage(): String = filterIsInstance<T>()
-    .joinToString { it.permission }

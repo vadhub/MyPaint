@@ -57,10 +57,10 @@ class MainActivity : AppCompatActivity(), DrawableFragment.FileHandler, Permissi
 
     override fun onPermissionsResult(result: List<PermissionStatus>) {
         when {
-            result.anyPermanentlyDenied() -> showPermanentlyDeniedDialog(result)
-            result.anyShouldShowRationale() -> showRationaleDialog(result, request)
+            result.anyPermanentlyDenied() -> showPermanentlyDeniedDialog()
+            result.anyShouldShowRationale() -> showRationaleDialog(request)
             result.allGranted() -> {
-                showGrantedToast(result)
+                showGrantedToast()
             }
         }
     }

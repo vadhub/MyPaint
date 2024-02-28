@@ -1,18 +1,18 @@
 <resources>
-    <string name="app_name">MyPaint</string>
+    <string name="app_name">My Paint</string>
     <string name="neon">Neon</string>
-    <string name="fade">Fade</string>
+    <string name="fade" translatable="false">Fade</string>
     <string name="glow">Glow</string>
     <string name="blur">Blur</string>
     <string name="emboss">Emboss</string>
     <string name="deboss">Deboss</string>
-    <string name="granted_permissions">Granted: %s</string>
-    <string name="permanently_denied_permissions">Permanently denied: %s</string>
+    <string name="granted_permissions">Granted</string>
+    <string name="permanently_denied_permissions">Permanently denied</string>
     <string name="permissions_required">Permissions required</string>
-    <string name="rationale_permissions">Rationale: %s</string>
+    <string name="rationale_permissions">Rationale</string>
     <string name="request_again">Request again</string>
     <string name="action_settings">Settings</string>
     <string name="stroke_width">Stroke Width: </string>
     <string name="normal">Normal</string>
-    <string name="save_to">"Save to Picture directory"</string>
+    <string name="save_to">Saved to Picture directory</string>
 </resources>

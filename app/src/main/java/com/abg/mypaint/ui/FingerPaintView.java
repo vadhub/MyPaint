@@ -6,11 +6,13 @@ import android.graphics.Canvas;
 import android.graphics.MaskFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 
 import com.abg.mypaint.ui.brush.Brush;
@@ -157,7 +159,7 @@ public class FingerPaintView extends AppCompatImageView {
         }
     }
 
-    private void touch_start(float x, float y) {
+    private void touchStart(float x, float y) {
         if (undoEmptyListener != null) undoEmptyListener.onTouchDown();
         mPath.reset();
         mPath.moveTo(x, y);
@@ -235,7 +237,7 @@ public class FingerPaintView extends AppCompatImageView {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                touch_start(x, y);
+                touchStart(x, y);
                 invalidate();
                 break;
             case MotionEvent.ACTION_MOVE:

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Мой Paint</string>
+    <string name="neon">Неон</string>
+    <string name="glow">Свечение</string>
+    <string name="blur">Блюр</string>
+    <string name="emboss">Тиснение</string>
+    <string name="deboss">Тиснение</string>
+    <string name="granted_permissions">Предоставленный</string>
+    <string name="permanently_denied_permissions">Разрешение отказано</string>
+    <string name="permissions_required">Требуются разрешения</string>
+    <string name="rationale_permissions">Обоснование</string>
+    <string name="request_again">Запросить еще раз</string>
+    <string name="action_settings">Настройки</string>
+    <string name="stroke_width">Толщина:</string>
+    <string name="normal">Нормальный</string>
+    <string name="save_to">Сохранено в каталоге изображений.</string>
+</resources>
