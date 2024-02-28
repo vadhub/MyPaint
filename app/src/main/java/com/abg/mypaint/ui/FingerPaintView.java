@@ -6,18 +6,16 @@ import android.graphics.Canvas;
 import android.graphics.MaskFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 
+import com.abg.mypaint.local.Preferences;
 import com.abg.mypaint.ui.brush.Brush;
 import com.abg.mypaint.ui.brush.BrushType;
-import com.abg.mypaint.local.Preferences;
 
 import java.util.ArrayList;
 
@@ -40,6 +38,7 @@ public class FingerPaintView extends AppCompatImageView {
     private float mX, mY;
     private static final float TOUCH_TOLERANCE = 4;
     private Preferences preferences;
+    private boolean isUndo;
 
     public interface OnUndoEmptyListener {
         void undoListEmpty();
@@ -161,9 +160,12 @@ public class FingerPaintView extends AppCompatImageView {
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        mBitmap.eraseColor(0xFFFFFFFF); // by default WHITE background
-        mCanvas = new Canvas(mBitmap);
+        if (isUndo) {
+            mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+            mBitmap.eraseColor(0xFFFFFFFF); // by default WHITE background
+            mCanvas = new Canvas(mBitmap);
+            isUndo = false;
+        }
     }
 
     private void touchStart(float x, float y) {
@@ -200,6 +202,7 @@ public class FingerPaintView extends AppCompatImageView {
     public void onUndo() {
         try {
             redraw = true;
+            isUndo = true;
             if (pathList.size() > 0) {
                 pathList.remove(pathList.size() - 1);
                 onSizeChanged(width, height, width, height);

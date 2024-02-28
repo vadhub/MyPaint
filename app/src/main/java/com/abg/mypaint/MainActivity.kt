@@ -1,14 +1,13 @@
 package com.abg.mypaint
 
 import android.Manifest
-import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.abg.mypaint.local.ManagerFile
 import com.abg.mypaint.ui.DrawableFragment
+import com.abg.mypaint.ui.ads.AppOpenAdManager
 import com.fondesa.kpermissions.PermissionStatus
 import com.fondesa.kpermissions.allGranted
 import com.fondesa.kpermissions.anyPermanentlyDenied
@@ -40,6 +39,7 @@ class MainActivity : AppCompatActivity(), DrawableFragment.FileHandler, Permissi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         request.addListener(this)
+        AppOpenAdManager(application).initialize()
         supportFragmentManager.beginTransaction().add(R.id.fragment_container,
             DrawableFragment()
         ).commit()
