@@ -1,4 +1,4 @@
-package com.abg.mypaint.ui
+package com.abg.mypaint.ui.command
 
 import android.view.View
 import android.widget.LinearLayout

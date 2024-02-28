@@ -1,7 +1,8 @@
-package com.abg.mypaint.ui
+package com.abg.mypaint.ui.command
 
 import android.view.View
 import com.abg.mypaint.ui.DrawableFragment.FileHandler
+import com.abg.mypaint.ui.FingerPaintView
 
 class SaveCommand(
     private val fileHandler: FileHandler,

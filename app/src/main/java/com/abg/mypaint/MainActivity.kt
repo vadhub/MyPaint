@@ -19,10 +19,6 @@ import com.fondesa.kpermissions.request.PermissionRequest
 
 class MainActivity : AppCompatActivity(), DrawableFragment.FileHandler, PermissionRequest.Listener {
 
-    companion object {
-        private const val REQUEST_CODE_OPEN_DIRECTORY = 13433
-    }
-
     private val request by lazy {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             permissionsBuilder(Manifest.permission.READ_MEDIA_IMAGES).build()
@@ -59,12 +55,6 @@ class MainActivity : AppCompatActivity(), DrawableFragment.FileHandler, Permissi
         }
     }
 
-    override fun openImage() {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-        intent.setType("application/pdf")
-        startActivityForResult(intent, REQUEST_CODE_OPEN_DIRECTORY)
-    }
-
     override fun onPermissionsResult(result: List<PermissionStatus>) {
         when {
             result.anyPermanentlyDenied() -> showPermanentlyDeniedDialog(result)
@@ -75,14 +65,4 @@ class MainActivity : AppCompatActivity(), DrawableFragment.FileHandler, Permissi
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == REQUEST_CODE_OPEN_DIRECTORY && resultCode == AppCompatActivity.RESULT_OK) {
-            Log.d("ddd", String.format("Open Directory result Uri : %s", data!!.data))
-            val args = Bundle()
-            args.putString("uri", data.data.toString())
-
-        }
-    }
 }
