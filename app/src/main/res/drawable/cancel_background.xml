@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android" android:color="@color/gray_pressed">
-  <item  android:drawable="@color/gray_pressed"/>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" android:color="@color/color_back">
+  <item android:drawable="@drawable/brushes_background"/>
   <item android:drawable="@color/gray_normal"/>
 </layer-list>

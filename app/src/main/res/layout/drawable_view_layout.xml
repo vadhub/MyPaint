@@ -209,7 +209,7 @@
             android:layout_height="48dip"
             android:layout_gravity="start"
             android:layout_marginStart="12dip"
-            android:background="@drawable/brushes_background"
+            android:background="?attr/selectableItemBackgroundBorderless"
             app:srcCompat="@drawable/save_fill0_wght400_grad0_opsz24" />
 
         <LinearLayout
