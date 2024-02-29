@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Мой Paint</string>
+    <string name="app_name">Paint Lite</string>
     <string name="neon">Неон</string>
     <string name="glow">Свечение</string>
     <string name="blur">Блюр</string>

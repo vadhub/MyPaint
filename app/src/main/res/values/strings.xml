@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Paint</string>
+    <string name="app_name">Paint Lite</string>
     <string name="neon">Neon</string>
     <string name="fade" translatable="false">Fade</string>
     <string name="glow">Glow</string>
