@@ -125,6 +125,6 @@ class AppOpenAdManager(application: Application) : AppOpenAdLoadListener {
     }
 
     companion object {
-        private const val AD_UNIT_ID = "demo-appopenad-yandex"
+        private const val AD_UNIT_ID = "R-M-6402043-1"
     }
 }
